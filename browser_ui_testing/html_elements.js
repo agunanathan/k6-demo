@@ -43,6 +43,7 @@ export default async function () {
         htmlElementsPage.checkBoxInfoDisplay.textContent() ===
         "Thanks for checking the box",
     });
+    page.screenshot({ path: "screenshots/checkedCheckbox.png" });
   } finally {
     page.close();
   }
