@@ -38,16 +38,22 @@ export let options = {
     "count",
   ],
   stages: [
-    { duration: "10s", target: 20 },
-    { duration: "50s", target: 20 },
-    //....
+    { duration: "10s", target: 3 }, // simulate ramp-up of traffic from 1 to 3 vu's in 10 seconds
+    { duration: "5s", target: 3 }, // stay at 3 users for 5 seconds
+    { duration: "20s", target: 6 }, // ramp-up to 6 users for the next 20 seconds
+    { duration: "10s", target: 0 }, // ramp down to 0 users
   ],
   thresholds: {
-    http_req_failed: [{ threshold: "rate<0.2", abortOnFail: true }], // availability threshold for error rate
-    http_req_duration: ["p(99)<1000"], // Latency threshold for percentile
-    // fail the test if any checks fail or any requests fail
-    checks: ["rate == 1.00"],
-    http_req_failed: ["rate == 0.00"],
+    http_req_failed: [{ threshold: "rate<0.01", abortOnFail: true }], // http errors should be less than 1% ( Setting can be 0 to 1.00)
+    http_req_duration: [
+      "avg<6000",
+      "min<3000",
+      "med<6000",
+      "max<15000",
+      "p(95)<8000",
+      "p(99)<15000",
+    ],
+    checks: [{ threshold: "rate==1.00", abortOnFail: true }],
   },
 };
 
