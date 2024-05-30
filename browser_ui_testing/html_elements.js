@@ -25,6 +25,7 @@ export default async function () {
   try {
     // Incrementor function
     await htmlElementsPage.goto();
+    page.screenshot({ path: "screenshots/beforeAll.png" });
     check(page, {
       "counter should be at 0 before clicking incrementor button":
         htmlElementsPage.counterInfoDisplay.textContent() === "Counter: 0",
@@ -35,6 +36,7 @@ export default async function () {
       "counter should be at 1 after clicking incrementor button once":
         htmlElementsPage.counterInfoDisplay.textContent() === "Counter: 1",
     });
+    page.screenshot({ path: "screenshots/counterAtOne.png" });
 
     // Checkbox Function
     await htmlElementsPage.checkBox1.check();
@@ -43,7 +45,7 @@ export default async function () {
         htmlElementsPage.checkBoxInfoDisplay.textContent() ===
         "Thanks for checking the box",
     });
-    page.screenshot({ path: "screenshots/checkedCheckbox.png" });
+    page.screenshot({ path: "screenshots/afterAll.png" });
   } finally {
     page.close();
   }
